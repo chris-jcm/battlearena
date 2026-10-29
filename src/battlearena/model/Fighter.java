@@ -38,7 +38,7 @@ public abstract class Fighter implements Combatant {
 
     // hindrar att HP blir negativ och över maxHP
     public void setHealthPoints(int healthPoints) {
-        this.healthPoints = Math.max(0, Math.min(healthPoints, maxHealthPoints));
+        this.healthPoints = Math.clamp(healthPoints,0, maxHealthPoints);
     }
 
     // genererar ett slummässigt skadevärde varje ny attack beroende på karaktärtyp
