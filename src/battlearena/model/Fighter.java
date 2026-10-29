@@ -8,17 +8,17 @@ public abstract class Fighter implements Combatant {
     private int healthPoints;
     private final int maxHealthPoints;
 
-    private final int minDamage;
-    private final int maxDamage;
+    private final int minAttackDamage;
+    private final int maxAttackDamage;
 
     private final Random random = new Random();
 
-    public Fighter(String name, int healthPoints, int maxHealthPoints, int minDamage, int maxDamage) {
+    public Fighter(String name, int healthPoints, int maxHealthPoints, int minAttackDamage, int maxAttackDamage) {
         this.name = name;
         this.healthPoints = healthPoints;
         this.maxHealthPoints = maxHealthPoints;
-        this.minDamage = minDamage;
-        this.maxDamage = maxDamage;
+        this.minAttackDamage = minAttackDamage;
+        this.maxAttackDamage = maxAttackDamage;
     }
 
     public String getName() {
@@ -43,7 +43,7 @@ public abstract class Fighter implements Combatant {
 
     // genererar ett slummässigt skadevärde varje ny attack beroende på karaktärtyp
     @Override
-    public int getDamage() {
-        return random.nextInt(maxDamage - minDamage + 1 ) + minDamage;
+    public int getAttackDamage() {
+        return random.nextInt(maxAttackDamage - minAttackDamage + 1 ) + minAttackDamage;
     }
 }

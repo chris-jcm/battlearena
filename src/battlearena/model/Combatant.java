@@ -2,6 +2,6 @@ package battlearena.model;
 
 public interface Combatant {
 
-   int getDamage();
+   int getAttackDamage();
    SpecialAction getSpecialAction();
 }
