@@ -34,7 +34,7 @@ public abstract class Fighter implements Combatant {
     }
 
 
-    public abstract SpecialAction getSpecialAction();
+    //public abstract SpecialAction getSpecialAction();
 
     // hindrar att HP blir negativ och över maxHP
     public void setHealthPoints(int healthPoints) {
