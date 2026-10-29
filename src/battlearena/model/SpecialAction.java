@@ -5,8 +5,8 @@ public enum SpecialAction {
     // Drainandheal special skadar motståndaren med slumpvårde
     // och ger användaren tillbaka hp som skadevärdet
     DRAINANDHEAL("Drainandheal", 2, 10 ),
-    DEFEND("Defend", 5, 5),
-    HEAL("Heal", 15, 15);
+    DEFEND("Defend", 7, 7),
+    HEAL("Heal", 12, 12);
 
     private final String displayName;
     private final int minValue;
