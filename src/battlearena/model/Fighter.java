@@ -32,12 +32,16 @@ public abstract class Fighter implements Combatant {
     public int getMaxHealthPoints() {
         return maxHealthPoints;
     }
-         // hindrar att HP blir negativ och över maxHP
+
+
+    public abstract SpecialAction getSpecialAction();
+
+    // hindrar att HP blir negativ och över maxHP
     public void setHealthPoints(int healthPoints) {
         this.healthPoints = Math.max(0, Math.min(healthPoints, maxHealthPoints));
     }
 
-          // genererar ett slummässigt skadevärde varje ny attack beroende på karaktärtyp
+    // genererar ett slummässigt skadevärde varje ny attack beroende på karaktärtyp
     @Override
     public int getDamage() {
         return random.nextInt(maxDamage - minDamage + 1 ) + minDamage;

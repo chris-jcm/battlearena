@@ -6,4 +6,8 @@ public class Assaassin extends Fighter {
         super(name, healthPoints, maxHealthPoints, minDamage, maxDamage);
     }
 
+    @Override
+    public SpecialAction getSpecialAction() {
+        return SpecialAction.DEFEND;
+    }
 }
