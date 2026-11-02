@@ -2,8 +2,12 @@ package battlearena.model;
 
 public class Assaassin extends Fighter {
 
-    public Assaassin(String name, int healthPoints, int maxHealthPoints, int minDamage, int maxDamage) {
-        super(name, healthPoints, maxHealthPoints, 4, 10);
+    private static final int BASE_HEALTH = 100;
+    private static final int MIN_ATTACK = 4;
+    private static final int MAX_ATTACK = 10;
+
+    public Assaassin() {
+        super(BASE_HEALTH, MIN_ATTACK, MAX_ATTACK);
     }
 
     @Override

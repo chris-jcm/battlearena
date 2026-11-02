@@ -1,6 +1,7 @@
 package test;
 
 import battlearena.model.Fighter;
+import battlearena.model.Mage;
 import battlearena.model.SpecialAction;
 import battlearena.model.Warrior;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,16 +17,42 @@ public class FighterTest {
     // Arrange
     @BeforeEach
     void  setup() {
-        fighter = new Warrior("Warrior", 100, 100, 7, 13);
+        fighter = new Mage();
 
     }
 
     @Test
-    void getDamageShouldReturnDamageWithinRange() {
+    void getActionDamageShouldReturnDamageWithinRange() {
 
         //Act
         int result = fighter.getAttackDamage();
 
-        assertTrue(result >= 7 && result <= 13);
+        // Assert
+        assertTrue(result >= 5 && result <= 11);
     }
+
+    @Test
+    void setHealthPointsShouldReturnNormalHealthWhenHealthIsBetweenZeroAndMaxHealth() {
+
+         fighter.setHealthPoints(50);
+
+        assertEquals(50, fighter.getHealthPoints());
+    }
+
+    @Test
+    void setHealthPointsShouldReturnZeroHealthWhenHealthIsNegativ() {
+
+        fighter.setHealthPoints(-10);
+
+        assertEquals(0, fighter.getHealthPoints());
+    }
+
+    @Test
+    void setHealthPointsShouldReturnMaxHealthPointsWhenHealthIsOverMaxHealthPoints() {
+
+        fighter.setHealthPoints(110);
+
+        assertEquals(100, fighter.getHealthPoints());
+    }
+
 }
