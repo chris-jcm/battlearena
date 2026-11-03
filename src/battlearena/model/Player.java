@@ -1,7 +1,7 @@
 package battlearena.model;
 
 public class Player {
-    private final String name;
+    private String name;
     private final Boolean isComputer;
     private Fighter fighter;
 
@@ -20,6 +20,10 @@ public class Player {
 
     public Fighter getFighter() {
         return fighter;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setFighter(Fighter fighter) {

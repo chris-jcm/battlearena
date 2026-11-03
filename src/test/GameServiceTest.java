@@ -1,11 +1,34 @@
 package test;
 
-import org.junit.jupiter.api.*;
+import battlearena.model.FighterType;
+import battlearena.model.Warrior;
+import battlearena.service.BattleService;
+import battlearena.service.GameService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class GameServiceTest {
+    private GameService service;
+
+    @BeforeEach
+    void setUp() {
+        service = new GameService(new BattleService());
+    }
 
     @Test
-    void randomTest(){
+    void selectFighterShouldSetPlayersFighter() {
+        service.selectFighter(FighterType.WARRIOR);
 
+        assertInstanceOf(Warrior.class, service.getPlayer().getFighter());
+    }
+
+    @Test
+    void startBattleShouldActivateBattleAndSetComputerFighter() {
+        service.startBattle();
+
+        assertTrue(service.isBattleActive());
+        assertNotNull(service.getComputer().getFighter());
     }
 }
