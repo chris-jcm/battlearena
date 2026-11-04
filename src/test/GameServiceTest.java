@@ -3,6 +3,7 @@ package test;
 import battlearena.model.FighterType;
 import battlearena.model.Warrior;
 import battlearena.service.BattleService;
+import battlearena.service.FighterFactory;
 import battlearena.service.GameService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,7 @@ public class GameServiceTest {
 
     @BeforeEach
     void setUp() {
-        service = new GameService(new BattleService());
+        service = new GameService(new FighterFactory(), new BattleService());
     }
 
     @Test
