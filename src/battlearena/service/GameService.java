@@ -4,11 +4,13 @@ import battlearena.model.*;
 
 public class GameService {
     private final BattleService battleService;
+    private final FighterFactory fighterFactory;
     private final Player player;
     private final Player computer;
     private boolean isBattleActive;
 
-    public GameService(BattleService battleService) {
+    public GameService(FighterFactory fighterFactory, BattleService battleService) {
+        this.fighterFactory = fighterFactory;
         this.battleService = battleService;
         player = new Player("Player", false);
         computer = new Player("Computer", true);
@@ -36,12 +38,12 @@ public class GameService {
     }
 
     public void selectFighter(FighterType fighterType) {
-        Fighter fighter = createFighter(fighterType);
+        Fighter fighter = fighterFactory.createFighter(fighterType);
         player.setFighter(fighter);
     }
 
     public void startBattle() {
-        computer.setFighter(generateRandomFighter());
+        computer.setFighter(fighterFactory.createRandomFighter());
         isBattleActive = true;
     }
 
@@ -80,20 +82,6 @@ public class GameService {
                 computer.getFighter().getHealthPoints() <= 0) {
             isBattleActive = false;
         }
-    }
-
-    private Fighter createFighter(FighterType fighterType) {
-        // Replace with factory
-        return switch(fighterType) {
-            case ASSASSIN -> new Assaassin();
-            case WARRIOR -> new Warrior();
-            case MAGE -> new Mage();
-        };
-    }
-
-    private Fighter generateRandomFighter() {
-        // Add random selection functionality
-        return createFighter(FighterType.WARRIOR);
     }
 
     private PlayerAction generateComputerAction() {
