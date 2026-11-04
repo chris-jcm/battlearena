@@ -27,6 +27,8 @@ public class GameServiceTest {
 
     @Test
     void startBattleShouldActivateBattleAndSetComputerFighter() {
+        service.selectFighter(FighterType.WARRIOR);
+
         service.startBattle();
 
         assertTrue(service.isBattleActive());
