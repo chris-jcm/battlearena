@@ -3,6 +3,9 @@ package battlearena.service;
 import battlearena.model.*;
 
 public class GameService {
+    public static final String BATTLE_STILL_ACTIVE = "The battle is still active.";
+    public static final String NO_ACTIVE_BATTLE = "No active battle.";
+    public static final String NO_FIGHTER_SELECTED = "Player has no fighter selected.";
     private final BattleService battleService;
     private final FighterFactory fighterFactory;
     private final Player player;
@@ -33,7 +36,7 @@ public class GameService {
         return isBattleActive;
     }
 
-    public void createPlayer(String name) {
+    public void setPlayerName(String name) {
         player.setName(name);
     }
 
@@ -43,6 +46,10 @@ public class GameService {
     }
 
     public void startBattle() {
+        if (player.getFighter() == null) {
+            throw new IllegalStateException(NO_FIGHTER_SELECTED);
+        }
+
         computer.setFighter(fighterFactory.createRandomFighter());
         isBattleActive = true;
     }
@@ -52,13 +59,13 @@ public class GameService {
     }
 
     public TurnResult executeComputerAction() {
-        var action = generateComputerAction();
+        var action = Math.random() < 0.6 ? PlayerAction.ATTACK : PlayerAction.SPECIAL;
         return executeAction(computer, player, action);
     }
 
     private TurnResult executeAction(Player attacker, Player defender, PlayerAction action) {
         if (!isBattleActive) {
-            throw new IllegalStateException("No active battle.");
+            throw new IllegalStateException(NO_ACTIVE_BATTLE);
         }
 
         var battleLog = battleService.executeAction(attacker.getFighter(), defender.getFighter(), action);
@@ -69,7 +76,10 @@ public class GameService {
     }
 
     public GameResult getMatchResult() {
-        // Add validation
+        if (isBattleActive) {
+            throw new IllegalStateException(BATTLE_STILL_ACTIVE);
+        }
+
         if (player.getFighter().getHealthPoints() > 0) {
             return GameResult.WIN;
         } else {
@@ -82,10 +92,5 @@ public class GameService {
                 computer.getFighter().getHealthPoints() <= 0) {
             isBattleActive = false;
         }
-    }
-
-    private PlayerAction generateComputerAction() {
-        // Simple random action
-        return Math.random() < 0.6 ? PlayerAction.ATTACK : PlayerAction.SPECIAL;
     }
 }
