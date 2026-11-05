@@ -2,27 +2,24 @@ package battlearena.model;
 
 public enum SpecialAction {
 
-    DRAINANDHEAL("Drainandheal", 2, 10 ),
-    DEFEND("Defend", 7, 7),
-    HEAL("Heal", 12, 12);
+    DRAINANDHEAL("Drainandheal", 10 ),
+    DEFEND("Defend", 1),
+    HEAL("Heal", 12);
 
     private final String displayName;
-    private final int minValue;
-    private final int maxValue;
+    private final int value;
 
-    SpecialAction(String displayName, int minValue, int maxValue) {
+    SpecialAction(String displayName, int value) {
         this.displayName = displayName;
-        this.minValue = minValue;
-        this.maxValue = maxValue;
+        this.value = value;
     }
 
     public String getDisplayName() {
         return displayName;
     }
-    public int getMinValue() {
-        return minValue;
+
+    public int getValue() {
+        return value;
     }
-    public int getMaxValue() {
-        return maxValue;
-    }
+
 }
