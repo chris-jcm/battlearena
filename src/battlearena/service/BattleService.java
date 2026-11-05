@@ -5,12 +5,42 @@ import battlearena.model.Fighter;
 import battlearena.model.PlayerAction;
 
 public class BattleService {
-    public BattleService() {
-
-    }
 
     public BattleLog executeAction(Fighter attacker, Fighter defender, PlayerAction action) {
-        // Add battle logic
-        return new BattleLog(action.toString(), attacker.getAttackDamage(), attacker.getHealthPoints(), defender.getHealthPoints());
+        if (action == PlayerAction.ATTACK) {
+            return attack(attacker, defender, action);
+        }
+
+        return specialAction(attacker, defender);
+    }
+
+    private BattleLog attack(Fighter attacker, Fighter defender, PlayerAction action) {
+        var damage = attacker.getAttackDamage();
+        var defenderHP = defender.getHealthPoints();
+
+        // Move to takeDamage method and check if defending
+        defender.setHealthPoints(defenderHP - damage);
+
+        return new BattleLog(action.toString(), damage, attacker.getHealthPoints(), defender.getHealthPoints());
+    }
+
+    private BattleLog specialAction(Fighter attacker, Fighter defender) {
+        var special = attacker.getSpecialAction();
+        var value = special.getValue();
+
+        switch (special) {
+            case DRAINANDHEAL -> {
+                defender.setHealthPoints(defender.getHealthPoints() - value);
+                attacker.setHealthPoints(attacker.getMaxHealthPoints() + value);
+            }
+            case DEFEND -> {
+                // Add defend logic to fighter
+            }
+            case HEAL -> {
+                attacker.setHealthPoints(attacker.getMaxHealthPoints() + value);
+            }
+        }
+
+        return new BattleLog(special.toString(), value, attacker.getHealthPoints(), defender.getHealthPoints());
     }
 }
