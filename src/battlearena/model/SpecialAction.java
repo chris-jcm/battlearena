@@ -2,7 +2,7 @@ package battlearena.model;
 
 public enum SpecialAction {
 
-    DRAINANDHEAL("Drainandheal", 10 ),
+    LIFE_STEAL("Drainandheal", 10 ),
     DEFEND("Defend", 1),
     HEAL("Heal", 12);
 

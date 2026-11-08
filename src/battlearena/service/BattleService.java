@@ -29,7 +29,7 @@ public class BattleService {
         var value = special.getValue();
 
         switch (special) {
-            case DRAINANDHEAL -> {
+            case LIFE_STEAL -> {
                 defender.setHealthPoints(defender.getHealthPoints() - value);
                 attacker.setHealthPoints(attacker.getMaxHealthPoints() + value);
             }

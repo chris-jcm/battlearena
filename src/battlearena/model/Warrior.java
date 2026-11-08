@@ -12,7 +12,7 @@ public class Warrior extends Fighter {
 
     @Override
     public SpecialAction getSpecialAction() {
-        return SpecialAction.DRAINANDHEAL;
+        return SpecialAction.LIFE_STEAL;
  }
 
 }
