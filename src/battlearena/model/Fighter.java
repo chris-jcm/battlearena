@@ -25,17 +25,14 @@ public abstract class Fighter implements Combatant {
     public int getHealthPoints() {
         return healthPoints;
     }
-    public int getMaxHealthPoints() {
-        return maxHealthPoints;
-    }
-    ;
+    public int getMaxHealthPoints() {return maxHealthPoints;}
+
     public void setHealthPoints(int healthPoints) {
         this.healthPoints = Math.clamp(healthPoints,0, maxHealthPoints);
     }
 
     @Override
     public int getAttackDamage() {
-
         return random.nextInt(minAttackDamage, maxAttackDamage + 1);
         //return random.nextInt(maxAttackDamage - minAttackDamage + 1 ) + minAttackDamage;
     }
