@@ -20,7 +20,7 @@ public class BattleServiceTest {
 
     @Test
     void shouldExecuteAttack() {
-        var attacker = new Assaassin();
+        var attacker = new Rogue();
         int initialHealth = defender.getHealthPoints();
 
         battleService.executeAction(attacker, defender, PlayerAction.ATTACK);

@@ -8,7 +8,7 @@ public class FighterFactory {
 
     public Fighter createFighter(FighterType fighterType) {
         return switch(fighterType) {
-            case ASSASSIN -> new Assaassin();
+            case ROGUE -> new Rogue();
             case WARRIOR -> new Warrior();
             case MAGE -> new Mage();
         };

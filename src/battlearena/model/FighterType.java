@@ -1,7 +1,7 @@
 package battlearena.model;
 
 public enum FighterType {
-    ASSASSIN,
+    ROGUE,
     WARRIOR,
     MAGE
 
