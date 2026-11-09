@@ -27,10 +27,6 @@ public class GameService {
         isPlayerTurn = false;
     }
 
-    public void initialize() {
-        // TBDeleted
-    }
-
     public Player getPlayer() {
         return player;
     }
@@ -61,7 +57,9 @@ public class GameService {
             throw new IllegalStateException(NO_FIGHTER_SELECTED);
         }
         // Reset player fighter
-        // player.getFighter().reset();
+        var maxHP = player.getFighter().getMaxHealthPoints();
+        player.getFighter().setHealthPoints(maxHP);
+
         computer.setFighter(fighterFactory.createRandomFighter());
         // Decide who starts
         isPlayerTurn = Math.random() < 0.5;
