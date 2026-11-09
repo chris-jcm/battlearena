@@ -21,7 +21,7 @@ public class BattleService {
         // Move to takeDamage method and check if defending
         defender.setHealthPoints(defenderHP - damage);
 
-        return new BattleLog(action.toString(), damage, attacker.getHealthPoints(), defender.getHealthPoints());
+        return new BattleLog(action, damage, attacker.getHealthPoints(), defender.getHealthPoints());
     }
 
     private BattleLog specialAction(Fighter attacker, Fighter defender) {
@@ -31,16 +31,16 @@ public class BattleService {
         switch (special) {
             case LIFE_STEAL -> {
                 defender.setHealthPoints(defender.getHealthPoints() - value);
-                attacker.setHealthPoints(attacker.getMaxHealthPoints() + value);
+                attacker.setHealthPoints(attacker.getHealthPoints() + value);
             }
             case DEFEND -> {
                 // Add defend logic to fighter
             }
             case HEAL -> {
-                attacker.setHealthPoints(attacker.getMaxHealthPoints() + value);
+                attacker.setHealthPoints(attacker.getHealthPoints() + value);
             }
         }
 
-        return new BattleLog(special.toString(), value, attacker.getHealthPoints(), defender.getHealthPoints());
+        return new BattleLog(special, value, attacker.getHealthPoints(), defender.getHealthPoints());
     }
 }

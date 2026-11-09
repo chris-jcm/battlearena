@@ -14,7 +14,7 @@ public class Player {
         return name;
     }
 
-    public Boolean getIsComputer() {
+    public Boolean isComputer() {
         return isComputer;
     }
 

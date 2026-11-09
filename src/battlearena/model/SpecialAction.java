@@ -1,8 +1,7 @@
 package battlearena.model;
 
-public enum SpecialAction {
-
-    LIFE_STEAL("Drainandheal", 10 ),
+public enum SpecialAction implements BattleAction {
+    LIFE_STEAL("Life steal", 10 ),
     DEFEND("Defend", 1),
     HEAL("Heal", 12);
 
@@ -14,6 +13,7 @@ public enum SpecialAction {
         this.value = value;
     }
 
+    @Override
     public String getDisplayName() {
         return displayName;
     }

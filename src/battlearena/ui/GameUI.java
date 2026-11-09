@@ -12,6 +12,6 @@ public class GameUI {
     public void run(){
         System.out.println("battle arena");
 
-        game.initialize();
+
     }
 }

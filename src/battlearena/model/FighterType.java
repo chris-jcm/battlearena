@@ -4,5 +4,4 @@ public enum FighterType {
     ROGUE,
     WARRIOR,
     MAGE
-
 }
