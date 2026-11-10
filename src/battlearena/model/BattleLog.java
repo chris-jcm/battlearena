@@ -2,7 +2,8 @@ package battlearena.model;
 
 public record BattleLog(
         BattleAction action,
-        int value,
+        int damageDealt,
+        int healingDone,
         int attackerHP,
         int defenderHP) {
 }
