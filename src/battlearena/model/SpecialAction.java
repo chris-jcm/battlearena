@@ -2,7 +2,7 @@ package battlearena.model;
 
 public enum SpecialAction implements BattleAction {
     LIFE_STEAL("Life steal", 10 ),
-    DEFEND("Defend", 1),
+    DEFEND("Defend", 5),
     HEAL("Heal", 12);
 
     private final String displayName;
