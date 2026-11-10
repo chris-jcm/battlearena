@@ -1,3 +1,8 @@
 package battlearena.model;
 
-public record BattleLog(String action, int value, int attackerHP, int defenderHP) { }
+public record BattleLog(
+        BattleAction action,
+        int value,
+        int attackerHP,
+        int defenderHP) {
+}

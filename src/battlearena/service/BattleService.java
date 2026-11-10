@@ -23,7 +23,7 @@ public class BattleService {
        // defender.setHealthPoints(defenderHP - damage);
         takeDamage(defender, damage);
 
-        return new BattleLog(action.toString(), damage, attacker.getHealthPoints(), defender.getHealthPoints());
+        return new BattleLog(action, damage, attacker.getHealthPoints(), defender.getHealthPoints());
     }
 
     private void takeDamage(Fighter defender, int damage) {
@@ -52,6 +52,6 @@ public class BattleService {
             }
         }
 
-        return new BattleLog(special.toString(), value, attacker.getHealthPoints(), defender.getHealthPoints());
+        return new BattleLog(special, value, attacker.getHealthPoints(), defender.getHealthPoints());
     }
 }
