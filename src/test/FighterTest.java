@@ -1,11 +1,13 @@
 package test;
 
-import battlearena.model.Fighter;
-import battlearena.model.Mage;
-import battlearena.model.SpecialAction;
-import battlearena.model.Warrior;
+import battlearena.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -18,18 +20,28 @@ public class FighterTest {
     @BeforeEach
     void  setup() {
         fighter = new Mage();
+        fighter = new Warrior();
+        fighter = new Rogue();
+    }
+
+    static Stream<Arguments> fighters(){
+        return Stream.of(
+                Arguments.of(new Mage(), 4, 11),
+                Arguments.of(new Warrior(), 7, 13),
+                Arguments.of(new Rogue(), 4, 10)
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("fighters")
+    void getActionDamageShouldReturnDamageWithinRange(Fighter fighter, int min, int max) {
+
+       int result = fighter.getAttackDamage();
+
+       assertTrue(result >= min && result <= max);
 
     }
 
-    @Test
-    void getActionDamageShouldReturnDamageWithinRange() {
-
-        //Act
-        int result = fighter.getAttackDamage();
-
-        // Assert
-        assertTrue(result >= 5 && result <= 11);
-    }
 
     @Test
     void setHealthPointsShouldReturnNormalHealthWhenHealthIsBetweenZeroAndMaxHealth() {

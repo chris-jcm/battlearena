@@ -11,6 +11,8 @@ public abstract class Fighter implements Combatant {
     private final int minAttackDamage;
     private final int maxAttackDamage;
 
+    private boolean defending;
+
     private final Random random = new Random();
 
     public Fighter(int healthPoints, int minAttackDamage, int maxAttackDamage) {
@@ -35,5 +37,12 @@ public abstract class Fighter implements Combatant {
     public int getAttackDamage() {
         return random.nextInt(minAttackDamage, maxAttackDamage + 1);
         //return random.nextInt(maxAttackDamage - minAttackDamage + 1 ) + minAttackDamage;
+    }
+    public void setIsDefending(boolean defending) {
+        this.defending = defending;
+    }
+
+    public boolean isDefending() {
+        return defending;
     }
 }

@@ -3,6 +3,7 @@ package battlearena.service;
 import battlearena.model.BattleLog;
 import battlearena.model.Fighter;
 import battlearena.model.PlayerAction;
+import battlearena.model.SpecialAction;
 
 public class BattleService {
 
@@ -16,12 +17,21 @@ public class BattleService {
 
     private BattleLog attack(Fighter attacker, Fighter defender, PlayerAction action) {
         var damage = attacker.getAttackDamage();
-        var defenderHP = defender.getHealthPoints();
+       // var defenderHP = defender.getHealthPoints();
 
         // Move to takeDamage method and check if defending
-        defender.setHealthPoints(defenderHP - damage);
+       // defender.setHealthPoints(defenderHP - damage);
+        takeDamage(defender, damage);
 
         return new BattleLog(action.toString(), damage, attacker.getHealthPoints(), defender.getHealthPoints());
+    }
+
+    private void takeDamage(Fighter defender, int damage) {
+        if (defender.isDefending()) {
+            damage = Math.max(0, damage - SpecialAction.DEFEND.getValue());
+            defender.setIsDefending(false);
+        }
+        defender.setHealthPoints(defender.getHealthPoints() - damage);
     }
 
     private BattleLog specialAction(Fighter attacker, Fighter defender) {
@@ -31,13 +41,14 @@ public class BattleService {
         switch (special) {
             case LIFE_STEAL -> {
                 defender.setHealthPoints(defender.getHealthPoints() - value);
-                attacker.setHealthPoints(attacker.getMaxHealthPoints() + value);
+                attacker.setHealthPoints(attacker.getHealthPoints() + value);
             }
             case DEFEND -> {
                 // Add defend logic to fighter
+                defender.setIsDefending(true);
             }
             case HEAL -> {
-                attacker.setHealthPoints(attacker.getMaxHealthPoints() + value);
+                attacker.setHealthPoints(attacker.getHealthPoints() + value);
             }
         }
 
