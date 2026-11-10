@@ -1,19 +1,13 @@
 package battlearena.model;
 
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class Fighter implements Combatant {
-
-    //private final String name;
     private int healthPoints;
     private final int maxHealthPoints;
-
     private final int minAttackDamage;
     private final int maxAttackDamage;
-
     private boolean defending;
-
-    private final Random random = new Random();
 
     public Fighter(int healthPoints, int minAttackDamage, int maxAttackDamage) {
 
@@ -23,7 +17,6 @@ public abstract class Fighter implements Combatant {
         this.maxAttackDamage = maxAttackDamage;
     }
 
-    //public String getName() {return name;}
     public int getHealthPoints() {
         return healthPoints;
     }
@@ -33,16 +26,27 @@ public abstract class Fighter implements Combatant {
         this.healthPoints = Math.clamp(healthPoints,0, maxHealthPoints);
     }
 
-    @Override
-    public int getAttackDamage() {
-        return random.nextInt(minAttackDamage, maxAttackDamage + 1);
-        //return random.nextInt(maxAttackDamage - minAttackDamage + 1 ) + minAttackDamage;
+    public int takeDamage(int damage) {
+        int damageTaken = Math.clamp(damage, 0, healthPoints);
+        healthPoints -= damageTaken;
+        return damageTaken;
     }
-    public void setIsDefending(boolean defending) {
-        this.defending = defending;
+
+    public int heal(int amount) {
+        int healthBefore = healthPoints;
+        healthPoints = Math.clamp(healthPoints + Math.max(0, amount), 0, maxHealthPoints);
+        return healthPoints - healthBefore;
+    }
+
+    public int getAttackDamage() {
+        return ThreadLocalRandom.current().nextInt(minAttackDamage, maxAttackDamage + 1);
     }
 
     public boolean isDefending() {
         return defending;
+    }
+
+    public void setIsDefending(boolean defending) {
+        this.defending = defending;
     }
 }
