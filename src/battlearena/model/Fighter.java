@@ -4,7 +4,6 @@ import java.util.Random;
 
 public abstract class Fighter implements Combatant {
 
-    //private final String name;
     private int healthPoints;
     private final int maxHealthPoints;
 
@@ -23,7 +22,6 @@ public abstract class Fighter implements Combatant {
         this.maxAttackDamage = maxAttackDamage;
     }
 
-    //public String getName() {return name;}
     public int getHealthPoints() {
         return healthPoints;
     }
@@ -36,7 +34,6 @@ public abstract class Fighter implements Combatant {
     @Override
     public int getAttackDamage() {
         return random.nextInt(minAttackDamage, maxAttackDamage + 1);
-        //return random.nextInt(maxAttackDamage - minAttackDamage + 1 ) + minAttackDamage;
     }
     public void setIsDefending(boolean defending) {
         this.defending = defending;

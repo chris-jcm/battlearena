@@ -44,7 +44,6 @@ public class BattleService {
                 attacker.setHealthPoints(attacker.getHealthPoints() + value);
             }
             case DEFEND -> {
-                // Add defend logic to fighter
                 defender.setIsDefending(true);
             }
             case HEAL -> {
