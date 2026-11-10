@@ -32,7 +32,7 @@ public class BattleService {
             defender.setIsDefending(false);
         }
         defender.setHealthPoints(defender.getHealthPoints() - damage);
-    }
+    } //k
 
     private BattleLog specialAction(Fighter attacker, Fighter defender) {
         var special = attacker.getSpecialAction();
