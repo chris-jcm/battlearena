@@ -1,56 +1,54 @@
 package battlearena.service;
 
 import battlearena.model.BattleLog;
-import battlearena.model.Fighter;
+import battlearena.model.Combatant;
 import battlearena.model.PlayerAction;
 import battlearena.model.SpecialAction;
 
 public class BattleService {
 
-    public BattleLog executeAction(Fighter attacker, Fighter defender, PlayerAction action) {
+    public BattleLog executeAction(Combatant attacker, Combatant defender, PlayerAction action) {
         if (action == PlayerAction.ATTACK) {
-            return attack(attacker, defender, action);
+            return attack(attacker, defender);
         }
 
         return specialAction(attacker, defender);
     }
 
-    private BattleLog attack(Fighter attacker, Fighter defender, PlayerAction action) {
-        var damage = attacker.getAttackDamage();
-       // var defenderHP = defender.getHealthPoints();
+    private BattleLog attack(Combatant attacker, Combatant defender) {
+        int damageDealt = dealDamage(defender, attacker.getAttackDamage());
 
-        // Move to takeDamage method and check if defending
-       // defender.setHealthPoints(defenderHP - damage);
-        takeDamage(defender, damage);
-
-        return new BattleLog(action, damage, attacker.getHealthPoints(), defender.getHealthPoints());
+        return new BattleLog(PlayerAction.ATTACK, damageDealt, 0, attacker.getHealthPoints(), defender.getHealthPoints());
     }
 
-    private void takeDamage(Fighter defender, int damage) {
+    private BattleLog specialAction(Combatant attacker, Combatant defender) {
+        var special = attacker.getSpecialAction();
+        int value = special.getValue();
+        int damageDealt = 0;
+        int healingDone = 0;
+
+        switch (special) {
+            case LIFE_STEAL -> {
+                damageDealt = dealDamage(defender, value);
+                healingDone = attacker.heal(damageDealt);
+            }
+            case DEFEND -> {
+                attacker.setIsDefending(true);
+            }
+            case HEAL -> {
+                healingDone = attacker.heal(value);
+            }
+        }
+
+        return new BattleLog(special, damageDealt, healingDone, attacker.getHealthPoints(), defender.getHealthPoints());
+    }
+
+    private int dealDamage(Combatant defender, int damage) {
         if (defender.isDefending()) {
             damage = Math.max(0, damage - SpecialAction.DEFEND.getValue());
             defender.setIsDefending(false);
         }
-        defender.setHealthPoints(defender.getHealthPoints() - damage);
-    } //k
 
-    private BattleLog specialAction(Fighter attacker, Fighter defender) {
-        var special = attacker.getSpecialAction();
-        var value = special.getValue();
-
-        switch (special) {
-            case LIFE_STEAL -> {
-                defender.setHealthPoints(defender.getHealthPoints() - value);
-                attacker.setHealthPoints(attacker.getHealthPoints() + value);
-            }
-            case DEFEND -> {
-                defender.setIsDefending(true);
-            }
-            case HEAL -> {
-                attacker.setHealthPoints(attacker.getHealthPoints() + value);
-            }
-        }
-
-        return new BattleLog(special, value, attacker.getHealthPoints(), defender.getHealthPoints());
+        return defender.takeDamage(damage);
     }
 }
