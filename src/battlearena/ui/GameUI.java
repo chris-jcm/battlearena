@@ -17,8 +17,6 @@ public class GameUI {
         boolean running = true;
         Scanner scanner = new Scanner(System.in);
 
-        //game.initialize();
-
         while(running){
             for(MenuOptions options : MenuOptions.values()){
                 System.out.println(options.getCode() + " - " + options.getDisplayName());
@@ -29,39 +27,64 @@ public class GameUI {
             MenuOptions option = MenuOptions.getByCode(input);
 
             switch (option){
-                case null -> {}
                 case QUIT -> running = false;
-                case CREATE_PLAYER -> createPlayerMenu(scanner);
-                case CHOOSE_PLAYER -> choosePlayerMenu(scanner);
-                case CHOOSE_FIGHTER -> chooseFighterMenu(scanner);
-                case START_BATTLE -> game.startBattle();
+                case GAME -> {
+                    createPlayerMenu(scanner);
+                    String playersFighter = chooseFighterMenu(scanner);
+                    battleLoop(scanner, playersFighter);
+                }
                 case SHOW_BATTLE_HISTORY -> {}
+                case null -> System.out.println("Invalid option, please try again.");
             }
+        }
+    }
+
+    private void battleLoop(Scanner scanner, final String playersFighter) {
+        game.startBattle();
+        String playersName = game.getPlayer().getName();
+        int action = 1;
+        Fighter computerFighterF = game.getComputer().getFighter();
+        String computersFighter = computerFighterF.getClass().getSimpleName();
+
+        System.out.println("=====" + playersFighter + " " + playersName +  " VS " + computersFighter + "=====");
+        System.out.println("=====BATTLE IS STARTED=====");
+
+        while(game.isBattleActive()){
+            System.out.println("\nChoose your action:");
+            System.out.println("1 - ATTACK");
+            System.out.println("2 - SPECIAL - "  );
+            action = scanner.nextInt();
+
+            //game.executeTurn(action);
 
         }
 
     }
 
-    private void chooseFighterMenu(Scanner scanner) {
+    private String chooseFighterMenu(Scanner scanner) {
         for(FighterType fighter : FighterType.values()){
             System.out.println(fighter.getCode() + " - " + fighter.getDisplayName());
-            //For display fighters paramethers changed in FighterType enurm needed. Refactoring of fighter's classes
-            //will be needed after updating enurm
-            //System.out.println("Health = " + );
-
-
+            System.out.println("Health = " + fighter.getBaseHealth());
+            System.out.println("Special Action - " + fighter.getSpecialAction());
         }
         System.out.println(ACTION_REQUEST);
 
         int input = scanner.nextInt();
-        //
-    }
-
-    private void choosePlayerMenu(Scanner scanner) {
+        FighterType type = FighterType.fromCode(input);
+        if(type == null){
+            System.out.println("Invalid input. Please try again.");
+        }else{
+            game.selectFighter(type);
+            System.out.println("Fighter " + type.getDisplayName() + " selected!");
+            return type.getDisplayName();
+        }
+        return null;
     }
 
     private void createPlayerMenu(Scanner scanner) {
+        System.out.println("Please enter the name of the player you would like to create.");
+        game.setPlayerName(scanner.next());
+        System.out.println("Player is created!.");
     }
-
 
 }

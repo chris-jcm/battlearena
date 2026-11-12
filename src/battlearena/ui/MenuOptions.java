@@ -1,12 +1,9 @@
 package battlearena.ui;
 
 enum MenuOptions {
-    CREATE_PLAYER(1, "Create player"),
-    CHOOSE_PLAYER(2, "Choose player"),
-    CHOOSE_FIGHTER(3, "Choose fighter"),
-    START_BATTLE(4, "Start battle"),
-    SHOW_BATTLE_HISTORY(5, "Show battle history"),
-    QUIT(6, "Quit"),
+    GAME(1, "Play"),
+    SHOW_BATTLE_HISTORY(4, "Show battle history"),
+    QUIT(5, "Quit"),
     ;
 
     private final int code;
