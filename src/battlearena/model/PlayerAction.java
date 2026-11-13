@@ -12,7 +12,7 @@ public enum PlayerAction implements BattleAction {
         this.code = code;
     }
 
-    public static PlayerAction fromCode(int code) {
+    public static PlayerAction getByCode(int code) {
         for (PlayerAction playerAction : PlayerAction.values()) {
             if (playerAction.code == code) {
                 return playerAction;

@@ -32,7 +32,7 @@ public enum FighterType {
         return specialAction;
     }
 
-    public static FighterType fromCode(int code) {
+    public static FighterType getByCode(int code) {
         for (FighterType fighterType : FighterType.values()) {
             if (fighterType.getCode() == code) {
                 return fighterType;

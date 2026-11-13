@@ -3,7 +3,10 @@ package battlearena.ui;
 import battlearena.model.Fighter;
 import battlearena.model.FighterType;
 import battlearena.model.PlayerAction;
+import battlearena.model.TurnResult;
 import battlearena.service.GameService;
+
+import java.util.List;
 import java.util.Scanner;
 
 public class GameUI {
@@ -48,16 +51,25 @@ public class GameUI {
         Fighter computerFighterF = game.getComputer().getFighter();
         String computersFighter = computerFighterF.getClass().getSimpleName();
 
-        System.out.println("=====" + FighterType.fromCode(playersFighterCode).getDisplayName() + " "
+        System.out.println("=====" + FighterType.getByCode(playersFighterCode).getDisplayName() + " "
                 + playersName +  " VS " + computersFighter + "=====");
         System.out.println("=====BATTLE IS STARTED=====");
 
         while(game.isBattleActive()){
             System.out.println("\nChoose your action:");
             System.out.println("1 - ATTACK");
-            System.out.println("2 - SPECIAL - " + FighterType.fromCode(playersFighterCode).getSpecialAction());
+            System.out.println("2 - SPECIAL - " + FighterType.getByCode(playersFighterCode).getSpecialAction());
             actionCode = scanner.nextInt();
-            game.executeTurn(PlayerAction.fromCode(actionCode));
+            //game.executeTurn(PlayerAction.getByCode(actionCode));
+
+            try{
+                List<TurnResult> result = game.executeTurn(PlayerAction.getByCode(actionCode));
+                for(TurnResult turnResult : result){
+                    System.out.println(turnResult.toString());
+                }
+            } catch(IllegalStateException e){
+                System.out.println(e.getMessage());
+            }
 
         }
 
@@ -74,11 +86,14 @@ public class GameUI {
 
         do{
             System.out.println(ACTION_REQUEST);
+
             while(!scanner.hasNextInt()){
                 System.out.println(INVALID_INPUT);
                 scanner.next();
             }
-            type = FighterType.fromCode(scanner.nextInt());
+
+            type = FighterType.getByCode(scanner.nextInt());
+
             if (type == null) {
                 System.out.println(INVALID_INPUT);
             } else {
