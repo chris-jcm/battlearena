@@ -2,11 +2,13 @@ package battlearena.ui;
 
 import battlearena.model.Fighter;
 import battlearena.model.FighterType;
+import battlearena.model.PlayerAction;
 import battlearena.service.GameService;
 import java.util.Scanner;
 
 public class GameUI {
     final String ACTION_REQUEST = "Please, make your choice by entering one of provided numbers...";
+    final String INVALID_INPUT = "Invalid input. Please try again.";
     private final GameService game;
 
     public GameUI(GameService game) {
@@ -30,7 +32,7 @@ public class GameUI {
                 case QUIT -> running = false;
                 case GAME -> {
                     createPlayerMenu(scanner);
-                    String playersFighter = chooseFighterMenu(scanner);
+                    int playersFighter = chooseFighterMenu(scanner);
                     battleLoop(scanner, playersFighter);
                 }
                 case SHOW_BATTLE_HISTORY -> {}
@@ -39,46 +41,53 @@ public class GameUI {
         }
     }
 
-    private void battleLoop(Scanner scanner, final String playersFighter) {
+    private void battleLoop(Scanner scanner, final int playersFighterCode) {
         game.startBattle();
         String playersName = game.getPlayer().getName();
-        int action = 1;
+        int actionCode = 1;
         Fighter computerFighterF = game.getComputer().getFighter();
         String computersFighter = computerFighterF.getClass().getSimpleName();
 
-        System.out.println("=====" + playersFighter + " " + playersName +  " VS " + computersFighter + "=====");
+        System.out.println("=====" + FighterType.fromCode(playersFighterCode).getDisplayName() + " "
+                + playersName +  " VS " + computersFighter + "=====");
         System.out.println("=====BATTLE IS STARTED=====");
 
         while(game.isBattleActive()){
             System.out.println("\nChoose your action:");
             System.out.println("1 - ATTACK");
-            System.out.println("2 - SPECIAL - "  );
-            action = scanner.nextInt();
-
-            //game.executeTurn(action);
+            System.out.println("2 - SPECIAL - " + FighterType.fromCode(playersFighterCode).getSpecialAction());
+            actionCode = scanner.nextInt();
+            game.executeTurn(PlayerAction.fromCode(actionCode));
 
         }
 
     }
 
-    private String chooseFighterMenu(Scanner scanner) {
-        for(FighterType fighter : FighterType.values()){
+    private int chooseFighterMenu(Scanner scanner) {
+        for (FighterType fighter : FighterType.values()) {
             System.out.println(fighter.getCode() + " - " + fighter.getDisplayName());
             System.out.println("Health = " + fighter.getBaseHealth());
             System.out.println("Special Action - " + fighter.getSpecialAction());
         }
-        System.out.println(ACTION_REQUEST);
 
-        int input = scanner.nextInt();
-        FighterType type = FighterType.fromCode(input);
-        if(type == null){
-            System.out.println("Invalid input. Please try again.");
-        }else{
-            game.selectFighter(type);
-            System.out.println("Fighter " + type.getDisplayName() + " selected!");
-            return type.getDisplayName();
-        }
-        return null;
+        FighterType type = null;
+
+        do{
+            System.out.println(ACTION_REQUEST);
+            while(!scanner.hasNextInt()){
+                System.out.println(INVALID_INPUT);
+                scanner.next();
+            }
+            type = FighterType.fromCode(scanner.nextInt());
+            if (type == null) {
+                System.out.println(INVALID_INPUT);
+            } else {
+                game.selectFighter(type);
+                System.out.println("Fighter " + type.getDisplayName() + " selected!");
+                return type.getCode();
+            }
+        } while (true);
+
     }
 
     private void createPlayerMenu(Scanner scanner) {
