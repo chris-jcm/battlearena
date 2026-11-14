@@ -2,8 +2,8 @@ package battlearena.ui;
 
 enum MenuOptions {
     GAME(1, "Play"),
-    SHOW_BATTLE_HISTORY(4, "Show battle history"),
-    QUIT(5, "Quit"),
+    SHOW_BATTLE_HISTORY(2, "Show battle history"),
+    QUIT(3, "Quit"),
     ;
 
     private final int code;
