@@ -8,6 +8,7 @@ import battlearena.service.GameService;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.function.Function;
 
 public class GameUI {
     static final String ACTION_REQUEST = "Please, make your choice by entering one of provided numbers...";
@@ -85,37 +86,31 @@ public class GameUI {
     }
 
     private PlayerAction getActionChoice(Scanner scanner) {
-        PlayerAction playerAction = null;
 
-        do{
-            playerAction = PlayerAction.getByCode(scanInt(scanner));
+        return readChoice(scanner, PlayerAction::getByCode);
+    }
 
-            if(playerAction == null){
+    private <T> T readChoice(Scanner scanner, Function<Integer, T> getByCode) {
+        T choice = null;
+
+        do {
+            choice = getByCode.apply(scanInt(scanner));
+
+            if (choice == null) {
                 System.out.println(INVALID_INPUT);
             }
-        } while(playerAction == null);
+        } while (choice == null);
 
-        return playerAction;
+        return choice;
     }
-    //private <T> T readChoice(Scanner scanner, Function<Integer, T> getByCode)
-
-    //private getChoice<Integer, T>{}
 
     private FighterType getFighterChoice(Scanner scanner) {
         listFighters();
 
-        FighterType type = null;
+        FighterType type = readChoice(scanner, FighterType::getByCode);
 
-        do{
-            type = FighterType.getByCode(scanInt(scanner));
-
-            if (type == null) {
-                System.out.println(INVALID_INPUT);
-            } else {
-                game.selectFighter(type);
-                System.out.println("Fighter " + type.getDisplayName() + " selected!");
-            }
-        } while (type == null);
+        game.selectFighter(type);
+        System.out.println("Fighter " + type.getDisplayName() + " selected!");
 
         return type;
     }
