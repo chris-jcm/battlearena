@@ -30,10 +30,7 @@ public class GameUI {
             }
             System.out.println(ACTION_REQUEST);
 
-            int input = scanInt(scanner);
-            MenuOptions option = MenuOptions.getByCode(input);
-
-            switch (option){
+            switch (readChoice(scanner, MenuOptions::getByCode)){
                 case QUIT -> running = false;
                 case GAME -> {
                     createPlayerMenu(scanner);
@@ -41,7 +38,6 @@ public class GameUI {
                     battleLoop(scanner, playersFighter);
                 }
                 case SHOW_BATTLE_HISTORY -> displayBattleHistory();
-                case null -> System.out.println(INVALID_INPUT);
             }
         }
     }
@@ -54,7 +50,6 @@ public class GameUI {
         game.startBattle();
 
         String playersName = game.getPlayer().getName();
-        
         Fighter computerFighterF = game.getComputer().getFighter();
         String computersFighter = computerFighterF.getClass().getSimpleName();
 
