@@ -1,8 +1,6 @@
 package test;
 
 import battlearena.model.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -12,17 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class FighterTest {
 
-    private Fighter fighter;
-
-    // Arrange
-    @BeforeEach
-    void  setup() {
-        fighter = new Mage();
-        fighter = new Warrior();
-        fighter = new Rogue();
-    }
-
-    static Stream<Arguments> fighters(){
+    static Stream<Arguments> fightersForAttackDamage(){
         return Stream.of(
                 Arguments.of(new Mage(), 33, 40),
                 Arguments.of(new Warrior(), 36, 43),
@@ -31,7 +19,7 @@ public class FighterTest {
     }
 
     @ParameterizedTest
-    @MethodSource("fighters")
+    @MethodSource("fightersForAttackDamage")
     void getActionDamageShouldReturnDamageWithinRange(Fighter fighter, int min, int max) {
 
        int result = fighter.getAttackDamage();
@@ -39,27 +27,38 @@ public class FighterTest {
        assertTrue(result >= min && result <= max);
     }
 
-    @Test
-    void setHealthPointsShouldReturnNormalHealthWhenHealthIsBetweenZeroAndMaxHealth() {
+    static Stream<Fighter> fightersHealth() {
+        return Stream.of(
+                new Mage(),
+                new Warrior(),
+                new Rogue()
+        );
+    }
 
-         fighter.setHealthPoints(50);
+    @ParameterizedTest
+    @MethodSource("fightersHealth")
+    void setHealthPointsShouldReturnNormalHealthWhenHealthIsBetweenZeroAndMaxHealth(Fighter fighter) {
+
+        fighter.setHealthPoints(50);
 
         assertEquals(50, fighter.getHealthPoints());
     }
 
-    @Test
-    void setHealthPointsShouldReturnZeroHealthWhenHealthIsNegativ() {
+    @ParameterizedTest
+    @MethodSource("fightersHealth")
+    void setHealthPointsShouldReturnZeroHealthWhenHealthIsNegativ(Fighter fighter) {
 
         fighter.setHealthPoints(-10);
 
         assertEquals(0, fighter.getHealthPoints());
     }
 
-    @Test
-    void setHealthPointsShouldReturnMaxHealthPointsWhenHealthIsOverMaxHealthPoints() {
+    @ParameterizedTest
+    @MethodSource("fightersHealth")
+    void setHealthPointsShouldReturnMaxHealthPointsWhenHealthIsOverMaxHealthPoints(Fighter fighter) {
 
         fighter.setHealthPoints(110);
 
-        assertEquals(100, fighter.getHealthPoints());
+        assertEquals(fighter.getMaxHealthPoints(), fighter.getHealthPoints());
     }
 }
