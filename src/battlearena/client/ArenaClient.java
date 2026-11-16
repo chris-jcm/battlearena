@@ -2,18 +2,68 @@ package battlearena.client;
 
 import battlearena.model.BattleResult;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ArenaClient {
+    public static final String GET_HISTORY = "GET_HISTORY";
+    public static final String LOCALHOST = "localhost";
+    public static final int PORT = 5000;
+    private static final int TIMEOUT_MS = 5000;
+    public static final String REQUEST_FAILED = "Request failed ";
+    public static final String REQUEST_TIMED_OUT = "Request timed out ";
 
-    public boolean saveBattleResult() {
-        var success = false;
-        success = true;
-        return success;
+    public void sendBattleResult(BattleResult result) throws IOException {
+
+        try (Socket socket = new Socket(LOCALHOST, PORT)) {
+
+            PrintWriter outputWriter = new PrintWriter(
+                    socket.getOutputStream(), true
+            );
+
+            outputWriter.println(result.toString());
+
+        } catch (IOException e) {
+            throw new IOException(REQUEST_FAILED + e);
+        }
     }
 
-    public List<BattleResult> getBattleResults() {
-        return new ArrayList<>();
+    public List<String> getMatchHistory() throws IOException {
+
+        List<String> history = new ArrayList<>();
+
+        try (Socket socket = new Socket(LOCALHOST, PORT)) {
+
+            socket.setSoTimeout(TIMEOUT_MS);
+
+            PrintWriter outputWriter = new PrintWriter(
+                    socket.getOutputStream(), true
+            );
+
+            BufferedReader inputReader = new BufferedReader(
+                    new InputStreamReader(socket.getInputStream())
+            );
+
+            outputWriter.println(GET_HISTORY);
+
+            String line;
+
+            while ((line = inputReader.readLine()) != null) {
+                history.add(line);
+            }
+
+        } catch (SocketTimeoutException e) {
+            throw new IOException(REQUEST_TIMED_OUT + e);
+        } catch (IOException e) {
+            throw new IOException(REQUEST_FAILED + e);
+        }
+
+        return history;
     }
 }
