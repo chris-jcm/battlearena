@@ -20,12 +20,8 @@ public class ArenaClient {
     public static final String REQUEST_TIMED_OUT = "Request timed out ";
 
     public void sendBattleResult(BattleResult result) throws IOException {
-
         try (Socket socket = new Socket(LOCALHOST, PORT)) {
-
-            PrintWriter outputWriter = new PrintWriter(
-                    socket.getOutputStream(), true
-            );
+            var outputWriter = createOutputWriter(socket);
 
             outputWriter.println(result.toString());
 
@@ -34,21 +30,13 @@ public class ArenaClient {
         }
     }
 
-    public List<String> getMatchHistory() throws IOException {
-
+    public List<String> getBattleHistory() throws IOException {
         List<String> history = new ArrayList<>();
 
         try (Socket socket = new Socket(LOCALHOST, PORT)) {
-
             socket.setSoTimeout(TIMEOUT_MS);
-
-            PrintWriter outputWriter = new PrintWriter(
-                    socket.getOutputStream(), true
-            );
-
-            BufferedReader inputReader = new BufferedReader(
-                    new InputStreamReader(socket.getInputStream())
-            );
+            var outputWriter = createOutputWriter(socket);
+            var inputReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             outputWriter.println(GET_HISTORY);
 
@@ -65,5 +53,9 @@ public class ArenaClient {
         }
 
         return history;
+    }
+
+    private PrintWriter createOutputWriter(Socket socket) throws IOException {
+        return new PrintWriter(socket.getOutputStream(), true);
     }
 }
