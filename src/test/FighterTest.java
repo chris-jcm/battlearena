@@ -24,9 +24,9 @@ public class FighterTest {
 
     static Stream<Arguments> fighters(){
         return Stream.of(
-                Arguments.of(new Mage(), 4, 11),
-                Arguments.of(new Warrior(), 7, 13),
-                Arguments.of(new Rogue(), 4, 10)
+                Arguments.of(new Mage(), 33, 40),
+                Arguments.of(new Warrior(), 36, 43),
+                Arguments.of(new Rogue(), 30, 37)
         );
     }
 
