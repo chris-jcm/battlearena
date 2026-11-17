@@ -1,10 +1,9 @@
 package battlearena.ui;
 
-enum MenuOptions {
+enum MenuOptions implements MenuItem {
     GAME(1, "Play"),
     SHOW_BATTLE_HISTORY(2, "Show battle history"),
-    QUIT(3, "Quit"),
-    ;
+    QUIT(3, "Quit");
 
     private final int code;
     private final String displayName;
@@ -14,10 +13,12 @@ enum MenuOptions {
         this.displayName = description;
     }
 
+    @Override
     public int getCode() {
         return code;
     }
 
+    @Override
     public String getDisplayName() {
         return displayName;
     }
