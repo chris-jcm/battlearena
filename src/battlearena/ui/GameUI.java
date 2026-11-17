@@ -20,32 +20,41 @@ public class GameUI {
         this.game = game;
     }
 
-    public void run(){
+    public void run() {
         boolean running = true;
-        Scanner scanner = new Scanner(System.in);
 
-        while(running){
-            for(MenuOptions options : MenuOptions.values()){
-                System.out.println(options.getCode() + " - " + options.getDisplayName());
-            }
-            System.out.println(ACTION_REQUEST);
-
-            switch (readChoice(scanner, MenuOptions::getByCode)){
-                case QUIT -> running = false;
-                case GAME -> {
-                    createPlayerMenu(scanner);
-                    FighterType playersFighter = getFighterChoice(scanner);
-                    battleLoop(scanner, playersFighter);
-                }
-                case SHOW_BATTLE_HISTORY -> displayBattleHistory();
-            }
+        displayMenu();
+        while (running) {
+            running = displayMenu();
         }
     }
 
+    private boolean displayMenu() {
+        Scanner scanner = new Scanner(System.in);
+        for (MenuOptions options : MenuOptions.values()) {
+            System.out.println(options.getCode() + " - " + options.getDisplayName());
+        }
+        System.out.println(ACTION_REQUEST);
+
+        switch (readChoice(scanner, MenuOptions::getByCode)) {
+            case QUIT -> {return false;}
+            case GAME -> {
+                createPlayerMenu(scanner);
+                FighterType playersFighter = getFighterChoice(scanner);
+                battleLoop(scanner, playersFighter);
+            }
+            case SHOW_BATTLE_HISTORY -> displayBattleHistory();
+        }
+        return true;
+    }
+
+
+    //TODO
     private void displayBattleHistory() {
 
     }
 
+    //TODO SPECIAL DISPLAY
     private void battleLoop(Scanner scanner, FighterType playersFighter) {
         game.startBattle();
 
@@ -53,13 +62,13 @@ public class GameUI {
         Fighter computerFighterF = game.getComputer().getFighter();
         String computersFighter = computerFighterF.getClass().getSimpleName();
 
-        System.out.println("=====" + playersFighter.getDisplayName() + " " + playersName +  " VS " + computersFighter + "=====");
+        System.out.println("=====" + playersFighter.getDisplayName() + " " + playersName + " VS " + computersFighter + "=====");
         System.out.println("=====BATTLE IS STARTED=====");
 
-        while(game.isBattleActive()){
+        while (game.isBattleActive()) {
             System.out.println("\nChoose your action:");
             System.out.println("1 - ATTACK");
-            System.out.println("2 - SPECIAL - " + playersFighter.getSpecialAction());
+            //System.out.println("2 - SPECIAL - " + playersFighter.getSpecialAction());
 
             playTurn(scanner);
         }
@@ -70,18 +79,17 @@ public class GameUI {
     }
 
     private void playTurn(Scanner scanner) {
-        try{
+        try {
             List<TurnResult> result = game.executeTurn(getActionChoice(scanner));
-            for(TurnResult turnResult : result){
+            for (TurnResult turnResult : result) {
                 System.out.println(turnResult.toString());
             }
-        } catch(IllegalStateException e){
+        } catch (IllegalStateException e) {
             System.out.println(e.getMessage());
         }
     }
 
     private PlayerAction getActionChoice(Scanner scanner) {
-
         return readChoice(scanner, PlayerAction::getByCode);
     }
 
@@ -111,22 +119,24 @@ public class GameUI {
     }
 
     private int scanInt(Scanner scanner) {
-        while(true) {
+        while (true) {
             String input = scanner.nextLine().trim();
 
             try {
                 return Integer.parseInt(input);
-            }catch (IllegalArgumentException e){
+            } catch (IllegalArgumentException e) {
                 System.out.println(INVALID_INPUT);
             }
         }
     }
 
+    //TODO Health and special action
     private void listFighters() {
         for (FighterType fighter : FighterType.values()) {
             System.out.println(fighter.getCode() + " - " + fighter.getDisplayName());
-            System.out.println("Health = " + fighter.getBaseHealth());
-            System.out.println("Special Action - " + fighter.getSpecialAction());
+            System.out.println();
+            //System.out.println("Health = " + fighter.getBaseHealth());
+            //System.out.println("Special Action - " + fighter.getSpecialAction());
         }
         System.out.println(ACTION_REQUEST);
     }
