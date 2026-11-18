@@ -1,7 +1,9 @@
 package battlearena.service;
 
+import battlearena.client.ArenaClient;
 import battlearena.model.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,14 +15,16 @@ public class GameService {
     public static final String PLAYER_TURN = "It is the player's turn.";
     private final BattleService battleService;
     private final FighterFactory fighterFactory;
+    private final ArenaClient arenaClient;
     private final Player player;
     private final Player computer;
     private boolean isBattleActive;
     private boolean isPlayerTurn;
 
-    public GameService(FighterFactory fighterFactory, BattleService battleService) {
+    public GameService(FighterFactory fighterFactory, BattleService battleService, ArenaClient arenaClient) {
         this.fighterFactory = fighterFactory;
         this.battleService = battleService;
+        this.arenaClient = arenaClient;
         player = new Player("Player", false);
         computer = new Player("Computer", true);
         isBattleActive = false;
@@ -160,8 +164,17 @@ public class GameService {
         }
     }
 
-    public Fighter previewFighter(FighterType type) {
-        return fighterFactory.createFighter(type);
+    public void saveMatchHistory() throws IOException {
+        BattleResult result = new BattleResult(
+                player.getName(),
+                player.getFighterType(),
+                computer.getFighterType(),
+                getMatchResult());
+
+        arenaClient.sendBattleResult(result);
     }
 
+    public List<BattleResult> getMatchHistory() throws IOException {
+        return arenaClient.getBattleHistory();
+    }
 }

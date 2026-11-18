@@ -1,5 +1,6 @@
 package test;
 
+import battlearena.client.ArenaClient;
 import battlearena.model.FighterType;
 import battlearena.model.Warrior;
 import battlearena.service.BattleService;
@@ -15,7 +16,7 @@ public class GameServiceTest {
 
     @BeforeEach
     void setUp() {
-        service = new GameService(new FighterFactory(), new BattleService());
+        service = new GameService(new FighterFactory(), new BattleService(), new ArenaClient());
     }
 
     @Test
