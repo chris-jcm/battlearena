@@ -23,7 +23,7 @@ public class ArenaClient {
         try (Socket socket = new Socket(LOCALHOST, PORT)) {
             var outputWriter = createOutputWriter(socket);
 
-            outputWriter.println(result.toString());
+            outputWriter.println(result.serialize());
 
         } catch (IOException e) {
             throw new IOException(REQUEST_FAILED + e);
