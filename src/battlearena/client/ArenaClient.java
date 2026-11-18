@@ -30,8 +30,8 @@ public class ArenaClient {
         }
     }
 
-    public List<String> getBattleHistory() throws IOException {
-        List<String> history = new ArrayList<>();
+    public List<BattleResult> getBattleHistory() throws IOException {
+        List<BattleResult> history = new ArrayList<>();
 
         try (Socket socket = new Socket(LOCALHOST, PORT)) {
             socket.setSoTimeout(TIMEOUT_MS);
@@ -43,7 +43,7 @@ public class ArenaClient {
             String line;
 
             while ((line = inputReader.readLine()) != null) {
-                history.add(line);
+                history.add(BattleResult.deserialize(line));
             }
 
         } catch (SocketTimeoutException e) {

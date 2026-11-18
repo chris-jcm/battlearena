@@ -6,9 +6,23 @@ public record BattleResult(
         FighterType computerFighter,
         GameResult gameResult) {
 
-    @Override
-    public String toString() {
-        return playerName + ": " + playerFighter +
-                " vs " + computerFighter + " - Result: " + gameResult;
+    public String serialize() {
+        return String.join("|",
+                playerName,
+                playerFighter.name(),
+                computerFighter.name(),
+                gameResult.name()
+        );
+    }
+
+    public static BattleResult deserialize(String data) {
+        String[] fields = data.split("\\|");
+
+        return new BattleResult(
+                fields[0],
+                FighterType.valueOf(fields[1]),
+                FighterType.valueOf(fields[2]),
+                GameResult.valueOf(fields[3])
+        );
     }
 }
