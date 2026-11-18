@@ -173,4 +173,8 @@ public class GameService {
 
         arenaClient.sendBattleResult(result);
     }
+
+    public List<String> getMatchHistory() throws IOException {
+        return arenaClient.getBattleHistory();
+    }
 }
