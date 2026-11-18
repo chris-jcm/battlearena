@@ -1,20 +1,16 @@
 package battlearena.model;
 
 public enum FighterType {
-    ROGUE(1, "Rogue", 100, SpecialAction.DEFEND.getDisplayName()),
-    WARRIOR(2, "Warrior", 110, SpecialAction.LIFE_STEAL.getDisplayName()),
-    MAGE(3, "Mage", 80, SpecialAction.HEAL.getDisplayName()),;
+    ROGUE(1, "Rogue"),
+    WARRIOR(2, "Warrior"),
+    MAGE(3, "Mage");
 
     private final int code;
     private final String displayName;
-    private final int baseHealth;
-    private final String specialAction;
 
-    FighterType(int code, String displayName, int baseHealth, String specialAction) {
+    FighterType(int code, String displayName) {
         this.code = code;
         this.displayName = displayName;
-        this.baseHealth = baseHealth;
-        this.specialAction = specialAction;
     }
 
     public int getCode() {
@@ -22,14 +18,6 @@ public enum FighterType {
     }
     public String getDisplayName() {
         return displayName;
-    }
-
-    public int getBaseHealth() {
-        return baseHealth;
-    }
-
-    public String getSpecialAction() {
-        return specialAction;
     }
 
     public static FighterType getByCode(int code) {

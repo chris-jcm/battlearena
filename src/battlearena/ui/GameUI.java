@@ -11,6 +11,7 @@ import java.util.Scanner;
 import java.util.function.Function;
 
 public class GameUI {
+    FighterType playersFighterType;
     private final Scanner scanner = new Scanner(System.in);
 
     static final String ACTION_REQUEST = "Please, make your choice by entering one of provided numbers...";
@@ -49,8 +50,7 @@ public class GameUI {
             switch (readChoice(AfterBattleOptions::getByCode)){
                 case MAIN_MENU -> playing = false;
                 case PLAY_AGAIN -> {}
-                case CHANGE_FIGHTER ->
-                    getFighterChoice();
+                case CHANGE_FIGHTER -> getFighterChoice();
             }
         }
 
@@ -61,31 +61,30 @@ public class GameUI {
 
     }
 
-    //TODO SPECIAL DISPLAY
     private void battleLoop() {
         game.startBattle();
 
-        String playersName = game.getPlayer().getName();
-        Fighter computerFighterF = game.getComputer().getFighter();
-        String computersFighter = computerFighterF.getClass().getSimpleName();
+        Fighter playersFighter = game.getPlayer().getFighter();
+        Fighter computerFighter = game.getComputer().getFighter();
 
-        //System.out.println("=====" + playersFighter.getDisplayName() + " " + playersName + " VS " + computersFighter + "=====");
-        System.out.println("=====BATTLE IS STARTED=====");
+        System.out.println("===== " + playersFighterType.getDisplayName() + " " + game.getPlayer().getName() +
+                " VS " + computerFighter.getClass().getSimpleName() + " =====");
+        System.out.println("===== BATTLE IS STARTED =====");
 
         while (game.isBattleActive()) {
             System.out.println("\nChoose your action:");
             System.out.println("1 - ATTACK");
-            //System.out.println("2 - SPECIAL - " + playersFighter.getSpecialAction());
+            System.out.println("2 - SPECIAL - " + playersFighter.getSpecialAction().getDisplayName());
 
             playTurn();
         }
 
-        System.out.println("=====BATTLE IS FINISHED=====");
-        System.out.println("=========IT'S A " + game.getMatchResult() + "=========");
+        System.out.println("===== BATTLE IS FINISHED =====");
+        System.out.println("========= IT'S A " + game.getMatchResult() + " =========");
 
     }
 
-
+    //TODO Nice output
     private void playTurn() {
         try {
             List<TurnResult> result = game.executeTurn(getActionChoice());
@@ -129,6 +128,7 @@ public class GameUI {
         game.selectFighter(type);
         System.out.println("Fighter " + type.getDisplayName() + " selected!");
 
+        playersFighterType = type;
     }
 
     private int scanInt() {
@@ -143,21 +143,28 @@ public class GameUI {
         }
     }
 
-    //TODO Health and special action
     private void listFighters() {
         for (FighterType fighter : FighterType.values()) {
-            System.out.println(fighter.getCode() + " - " + fighter.getDisplayName());
-            System.out.println();
-            //System.out.println("Health = " + fighter.getBaseHealth());
-            //System.out.println("Special Action - " + fighter.getSpecialAction());
+            Fighter temp = game.previewFighter(fighter);
+            System.out.print(fighter.getCode() + " - " + fighter.getDisplayName());
+            System.out.print("  === Special: " + temp.getSpecialAction().getDisplayName());
+            System.out.println("  === Health: " + temp.getMaxHealthPoints());
+
         }
         System.out.println(ACTION_REQUEST);
     }
 
     private void createPlayerMenu() {
         System.out.println("Please enter the name of the player you would like to create.");
-        game.setPlayerName(scanner.nextLine());
-        System.out.println("Player is created!.");
+        String playerName;
+        do {
+            playerName = scanner.nextLine().trim();
+            if (playerName.isEmpty()) {
+                System.out.println(INVALID_INPUT);
+            }
+        } while (playerName.isEmpty());
+        game.setPlayerName(playerName);
+        System.out.println("Player is created!");
     }
 
 }

@@ -159,4 +159,9 @@ public class GameService {
             isBattleActive = false;
         }
     }
+
+    public Fighter previewFighter(FighterType type) {
+        return fighterFactory.createFighter(type);
+    }
+
 }
