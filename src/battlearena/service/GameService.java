@@ -177,4 +177,8 @@ public class GameService {
     public List<BattleResult> getMatchHistory() throws IOException {
         return arenaClient.getBattleHistory();
     }
+
+    public Fighter previewFighter(FighterType type) {
+        return fighterFactory.createFighter(type);
+    }
 }
