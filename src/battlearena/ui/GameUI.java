@@ -106,17 +106,20 @@ public class GameUI {
 
         while (game.isBattleActive()) {
 
-            System.out.println("=======Your Turn======");
+            if (game.isPlayerTurn()) {
+                System.out.println("=======Your Turn======");
 
-            System.out.println("Currently");
-            System.out.println("Health " + playersFighter.getHealthPoints()
-                    + " / " + playersFighter.getMaxHealthPoints());
+                System.out.println("Currently");
+                System.out.println("Health " + playersFighter.getHealthPoints()
+                        + " / " + playersFighter.getMaxHealthPoints());
 
-            System.out.println("\nChoose your action:\n");
-            System.out.println(" [1] - ATTACK");
-            System.out.println(" [2] - SPECIAL - " + playersFighter.getSpecialAction().getDisplayName());
-            System.out.println("\n-------------------");
-            System.out.println("Enter your choice:");
+                System.out.println("\nChoose your action:\n");
+                System.out.println(" [1] - ATTACK");
+                System.out.println(" [2] - SPECIAL - " + playersFighter.getSpecialAction().getDisplayName());
+                System.out.println("\n-------------------");
+                System.out.println("Enter your choice:");
+
+            }
 
             playTurn();
         }
@@ -132,9 +135,18 @@ public class GameUI {
         }
     }
 
+    private void pauseBetweenTurns() {
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
     private void playTurn() {
 
         try {
+            boolean playerTurn = game.isPlayerTurn();
             TurnResult result;
 
             if (game.isPlayerTurn()) {
@@ -155,6 +167,10 @@ public class GameUI {
             System.out.println("Attacker HP: " + log.attackerHP());
             System.out.println("Defender HP: " + log.defenderHP());
             System.out.println("==============");
+
+            if (playerTurn && game.isBattleActive()) {
+                pauseBetweenTurns();
+            }
 
         } catch (IllegalStateException e) {
             System.out.println(e.getMessage());
