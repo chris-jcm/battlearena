@@ -1,11 +1,9 @@
 package battlearena.ui;
 
-import battlearena.model.Fighter;
-import battlearena.model.FighterType;
-import battlearena.model.PlayerAction;
-import battlearena.model.TurnResult;
+import battlearena.model.*;
 import battlearena.service.GameService;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 import java.util.function.Function;
@@ -59,6 +57,21 @@ public class GameUI {
     //TODO
     private void displayBattleHistory() {
 
+        try {
+        List<BattleResult> battleHistoryResult = game.getMatchHistory();
+
+        if (battleHistoryResult.isEmpty()) {
+            System.out.println("No battle history saved yet.");
+            return;
+        }
+
+        for (BattleResult battleHistory : battleHistoryResult) {
+            System.out.println(battleHistory);
+        }
+
+        } catch (IOException e) {
+            System.out.println("Could not get battle history." + e.getMessage());
+        }
     }
 
     private void battleLoop() {
@@ -82,6 +95,12 @@ public class GameUI {
         System.out.println("===== BATTLE IS FINISHED =====");
         System.out.println("========= IT'S A " + game.getMatchResult() + " =========");
 
+        try {
+            game.saveMatchHistory();
+            System.out.println("Match result saved.");
+        } catch (IOException e) {
+            System.out.println("Could not save match result." + e.getMessage());
+        }
     }
 
     //TODO Nice output
