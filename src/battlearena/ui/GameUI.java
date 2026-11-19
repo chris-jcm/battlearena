@@ -1,11 +1,9 @@
 package battlearena.ui;
 
-import battlearena.model.Fighter;
-import battlearena.model.FighterType;
-import battlearena.model.PlayerAction;
-import battlearena.model.TurnResult;
+import battlearena.model.*;
 import battlearena.service.GameService;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 import java.util.function.Function;
@@ -59,6 +57,32 @@ public class GameUI {
     //TODO
     private void displayBattleHistory() {
 
+        try {
+        List<BattleResult> battleHistoryResult = game.getMatchHistory();
+
+        if (battleHistoryResult.isEmpty()) {
+            System.out.println("No battle history saved yet.");
+            return;
+        }
+
+            System.out.println("========= Battle History ========");
+
+        int matchNumber = 1;
+
+        for (BattleResult battleHistory : battleHistoryResult) {
+            System.out.println("\nMatch " + matchNumber++);
+            System.out.println("-----------------------------");
+            System.out.println("Player: " + battleHistory.playerName());
+            System.out.println("Player fighter: " + battleHistory.playerFighter().getDisplayName());
+            System.out.println("Computer fighter: " + battleHistory.computerFighter().getDisplayName());
+            System.out.println("Result: " + battleHistory.gameResult());
+        }
+
+            System.out.println("==============================");
+
+        } catch (IOException e) {
+            System.out.println("Could not get battle history." + e.getMessage());
+        }
     }
 
     private void battleLoop() {
@@ -67,14 +91,37 @@ public class GameUI {
         Fighter playersFighter = game.getPlayer().getFighter();
         Fighter computerFighter = game.getComputer().getFighter();
 
-        System.out.println("===== " + playersFighterType.getDisplayName() + " " + game.getPlayer().getName() +
+
+        System.out.println("==================");
+        System.out.println("   Battle Arena");
+        System.out.println("=================");
+
+        System.out.println("\n" + game.getPlayer().getName() +
+                " (" + playersFighterType.getDisplayName() + ")");
+        System.out.println("          VS");
+        System.out.println("Computer (" + computerFighter.getClass().getSimpleName() + ")");
+
+        System.out.println("=======================");
+        System.out.println("    Battle Started");
+        System.out.println("=========================");
+
+        /*System.out.println("===== " + playersFighterType.getDisplayName() + " " + game.getPlayer().getName() +
                 " VS " + computerFighter.getClass().getSimpleName() + " =====");
-        System.out.println("===== BATTLE IS STARTED =====");
+        System.out.println("===== BATTLE IS STARTED =====");*/
 
         while (game.isBattleActive()) {
-            System.out.println("\nChoose your action:");
-            System.out.println("1 - ATTACK");
-            System.out.println("2 - SPECIAL - " + playersFighter.getSpecialAction().getDisplayName());
+
+            System.out.println("=======Your Turn======");
+
+            System.out.println("Currently");
+            System.out.println("Health " + playersFighter.getHealthPoints()
+                    + " / " + playersFighter.getMaxHealthPoints());
+
+            System.out.println("\nChoose your action:\n");
+            System.out.println(" [1] - ATTACK");
+            System.out.println(" [2] - SPECIAL - " + playersFighter.getSpecialAction().getDisplayName());
+            System.out.println("\n-------------------");
+            System.out.println("Enter your choice:");
 
             playTurn();
         }
@@ -82,18 +129,51 @@ public class GameUI {
         System.out.println("===== BATTLE IS FINISHED =====");
         System.out.println("========= IT'S A " + game.getMatchResult() + " =========");
 
+        try {
+            game.saveMatchHistory();
+            System.out.println("Match result saved.");
+        } catch (IOException e) {
+            System.out.println("Could not save match result." + e.getMessage());
+        }
     }
 
     //TODO Nice output
     private void playTurn() {
+
         try {
+            TurnResult result;
+
+            if (game.isPlayerTurn()) {
+                result = game.executePlayerTurn(getActionChoice());
+            } else {
+                result = game.executeComputerTurn();
+            }
+
+            //System.out.println(result);
+            System.out.println("=======Turn Result======");
+            System.out.println("Attacker: " + result.attackerName());
+            System.out.println("Defender: " + result.defenderName());
+
+            BattleLog log = result.battleLog();
+
+            System.out.println("Action: " + log.action());
+            System.out.println("Damage dealt: " + log.damageDealt());
+            System.out.println("healing done: " + log.healingDone() );;
+            System.out.println("Attacker HP: " + log.attackerHP());
+            System.out.println("Defender HP: " + log.defenderHP());
+            System.out.println("==============");
+
+        } catch (IllegalStateException e) {
+            System.out.println(e.getMessage());
+        }
+       /* try {
             List<TurnResult> result = game.executeTurn(getActionChoice());
             for (TurnResult turnResult : result) {
                 System.out.println(turnResult.toString());
             }
         } catch (IllegalStateException e) {
             System.out.println(e.getMessage());
-        }
+        }*/
     }
 
     private PlayerAction getActionChoice() {
