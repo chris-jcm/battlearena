@@ -54,6 +54,7 @@ public class GameService {
     public void selectFighter(FighterType fighterType) {
         Fighter fighter = fighterFactory.createFighter(fighterType);
         player.setFighter(fighter);
+        player.setFighterType(fighterType);
     }
 
     public void startBattle() {
@@ -64,7 +65,10 @@ public class GameService {
         var maxHP = player.getFighter().getMaxHealthPoints();
         player.getFighter().setHealthPoints(maxHP);
 
-        computer.setFighter(fighterFactory.createRandomFighter());
+        FighterType computerType = fighterFactory.createRandomFighterType();
+        computer.setFighter(fighterFactory.createFighter(computerType));
+        computer.setFighterType(computerType);
+
         // Decide who starts
         isPlayerTurn = Math.random() < 0.5;
         isBattleActive = true;
