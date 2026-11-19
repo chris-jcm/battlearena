@@ -54,7 +54,6 @@ public class GameUI {
 
     }
 
-    //TODO
     private void displayBattleHistory() {
 
         try {
@@ -105,10 +104,6 @@ public class GameUI {
         System.out.println("    Battle Started");
         System.out.println("=========================");
 
-        /*System.out.println("===== " + playersFighterType.getDisplayName() + " " + game.getPlayer().getName() +
-                " VS " + computerFighter.getClass().getSimpleName() + " =====");
-        System.out.println("===== BATTLE IS STARTED =====");*/
-
         while (game.isBattleActive()) {
 
             System.out.println("=======Your Turn======");
@@ -137,7 +132,6 @@ public class GameUI {
         }
     }
 
-    //TODO Nice output
     private void playTurn() {
 
         try {
@@ -149,7 +143,6 @@ public class GameUI {
                 result = game.executeComputerTurn();
             }
 
-            //System.out.println(result);
             System.out.println("=======Turn Result======");
             System.out.println("Attacker: " + result.attackerName());
             System.out.println("Defender: " + result.defenderName());
@@ -166,14 +159,6 @@ public class GameUI {
         } catch (IllegalStateException e) {
             System.out.println(e.getMessage());
         }
-       /* try {
-            List<TurnResult> result = game.executeTurn(getActionChoice());
-            for (TurnResult turnResult : result) {
-                System.out.println(turnResult.toString());
-            }
-        } catch (IllegalStateException e) {
-            System.out.println(e.getMessage());
-        }*/
     }
 
     private PlayerAction getActionChoice() {
@@ -246,6 +231,5 @@ public class GameUI {
         game.setPlayerName(playerName);
         System.out.println("Player is created!");
     }
-
 }
 
