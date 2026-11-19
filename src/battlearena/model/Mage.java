@@ -4,9 +4,10 @@ public class Mage extends Fighter {
 
     private static final int MIN_ATTACK = 33;
     private static final int MAX_ATTACK = 40;
+    private static final int BASE_HEALTH = 80;
 
     public Mage() {
-        super(FighterType.MAGE.getBaseHealth(), MIN_ATTACK, MAX_ATTACK);
+        super(BASE_HEALTH, MIN_ATTACK, MAX_ATTACK);
     }
 
     @Override

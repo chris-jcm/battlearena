@@ -4,9 +4,10 @@ public class Warrior extends Fighter {
 
     private static final int MIN_ATTACK = 36;
     private static final int MAX_ATTACK = 43;
+    private static final int BASE_HEALTH = 110;
 
     public Warrior() {
-        super(FighterType.WARRIOR.getBaseHealth(), MIN_ATTACK, MAX_ATTACK);
+        super(BASE_HEALTH, MIN_ATTACK, MAX_ATTACK);
     }
 
     @Override
