@@ -14,9 +14,13 @@ public class FighterFactory {
         };
     }
 
-    public Fighter createRandomFighter() {
+
+    public FighterType createRandomFighterType() {
         FighterType[] types = FighterType.values();
-        FighterType randomType = types[ThreadLocalRandom.current().nextInt(types.length)];
-        return createFighter(randomType);
+        return types[ThreadLocalRandom.current().nextInt(types.length)];
+    }
+
+    public Fighter createRandomFighter(FighterType fighterType) {
+        return createFighter(fighterType);
     }
 }
