@@ -65,9 +65,20 @@ public class GameUI {
             return;
         }
 
+            System.out.println("========= Battle History ========");
+
+        int matchNumber = 1;
+
         for (BattleResult battleHistory : battleHistoryResult) {
-            System.out.println(battleHistory);
+            System.out.println("\nMatch " + matchNumber++);
+            System.out.println("-----------------------------");
+            System.out.println("Player: " + battleHistory.playerName());
+            System.out.println("Player fighter: " + battleHistory.playerFighter().getDisplayName());
+            System.out.println("Computer fighter: " + battleHistory.computerFighter().getDisplayName());
+            System.out.println("Result: " + battleHistory.gameResult());
         }
+
+            System.out.println("==============================");
 
         } catch (IOException e) {
             System.out.println("Could not get battle history." + e.getMessage());
