@@ -14,7 +14,7 @@ import java.util.List;
 public class ArenaClient {
     public static final String GET_HISTORY = "GET_HISTORY";
     public static final String LOCALHOST = "localhost";
-    public static final int PORT = 5000;
+    public static final int PORT = 5001;
     private static final int TIMEOUT_MS = 5000;
     public static final String REQUEST_FAILED = "Request failed ";
     public static final String REQUEST_TIMED_OUT = "Request timed out ";
