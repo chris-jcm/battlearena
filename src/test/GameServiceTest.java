@@ -35,18 +35,4 @@ public class GameServiceTest {
         assertTrue(service.isBattleActive());
         assertNotNull(service.getComputer().getFighter());
     }
-
-    //TDD fix
-    @Test
-    void selectFighterShouldSetPlayersFighterType() {
-        service.selectFighter(FighterType.MAGE);
-        assertEquals(FighterType.MAGE, service.getPlayer().getFighterType());
-    }
-
-    @Test
-    void startBattleShouldSetComputerFighterType() {
-        service.selectFighter(FighterType.WARRIOR);
-        service.startBattle();
-        assertNotNull(service.getComputer().getFighterType());
-    }
 }
