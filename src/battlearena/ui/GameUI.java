@@ -227,13 +227,13 @@ public class GameUI {
     }
 
     private void listFighters() {
-        for (FighterType fighter : FighterType.values()) {
-            Fighter temp = game.previewFighter(fighter);
-            System.out.print(fighter.getCode() + " - " + fighter.getDisplayName());
-            System.out.print("  === Special: " + temp.getSpecialAction().getDisplayName());
-            System.out.println("  === Health: " + temp.getMaxHealthPoints());
-
+        for (var fighter : game.getAvailableFighters()) {
+            var type = fighter.getType();
+            System.out.print(type.getCode() + " - " + type.getDisplayName());
+            System.out.print("  === Special: " + fighter.getSpecialAction().getDisplayName());
+            System.out.println("  === Health: " + fighter.getMaxHealthPoints());
         }
+
         System.out.println(ACTION_REQUEST);
     }
 
