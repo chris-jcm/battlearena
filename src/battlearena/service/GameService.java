@@ -2,6 +2,8 @@ package battlearena.service;
 
 import battlearena.client.ArenaClient;
 import battlearena.model.*;
+import battlearena.model.fighter.Fighter;
+import battlearena.model.fighter.FighterType;
 
 import java.io.IOException;
 import java.util.ArrayList;

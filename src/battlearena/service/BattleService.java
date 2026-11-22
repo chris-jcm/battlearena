@@ -1,7 +1,7 @@
 package battlearena.service;
 
 import battlearena.model.BattleLog;
-import battlearena.model.Combatant;
+import battlearena.model.fighter.Combatant;
 import battlearena.model.PlayerAction;
 import battlearena.model.SpecialAction;
 

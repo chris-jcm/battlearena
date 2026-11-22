@@ -1,6 +1,7 @@
 package test;
 
 import battlearena.model.*;
+import battlearena.model.fighter.Fighter;
 import battlearena.service.BattleService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

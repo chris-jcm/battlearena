@@ -1,8 +1,8 @@
 package test;
 
 import battlearena.client.ArenaClient;
-import battlearena.model.FighterType;
-import battlearena.model.Warrior;
+import battlearena.model.fighter.FighterType;
+import battlearena.model.fighter.Warrior;
 import battlearena.service.BattleService;
 import battlearena.service.FighterFactory;
 import battlearena.service.GameService;

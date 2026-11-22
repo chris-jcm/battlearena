@@ -1,6 +1,8 @@
 package battlearena.ui;
 
 import battlearena.model.*;
+import battlearena.model.fighter.Fighter;
+import battlearena.model.fighter.FighterType;
 import battlearena.service.GameService;
 
 import java.io.IOException;

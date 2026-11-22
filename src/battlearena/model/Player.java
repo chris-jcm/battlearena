@@ -1,5 +1,8 @@
 package battlearena.model;
 
+import battlearena.model.fighter.Fighter;
+import battlearena.model.fighter.FighterType;
+
 public class Player {
     private String name;
     private final Boolean isComputer;

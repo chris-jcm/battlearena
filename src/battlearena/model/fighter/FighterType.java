@@ -1,4 +1,4 @@
-package battlearena.model;
+package battlearena.model.fighter;
 
 public enum FighterType {
     ROGUE(1, "Rogue"),

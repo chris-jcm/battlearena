@@ -1,4 +1,6 @@
-package battlearena.model;
+package battlearena.model.fighter;
+
+import battlearena.model.SpecialAction;
 
 public class Mage extends Fighter {
 

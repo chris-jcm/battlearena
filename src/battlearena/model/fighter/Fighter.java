@@ -1,4 +1,4 @@
-package battlearena.model;
+package battlearena.model.fighter;
 
 import java.util.concurrent.ThreadLocalRandom;
 
