@@ -1,6 +1,9 @@
 package test;
 
-import battlearena.model.*;
+import battlearena.model.fighter.Fighter;
+import battlearena.model.fighter.Mage;
+import battlearena.model.fighter.Rogue;
+import battlearena.model.fighter.Warrior;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;

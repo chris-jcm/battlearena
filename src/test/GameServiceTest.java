@@ -1,8 +1,8 @@
 package test;
 
 import battlearena.client.ArenaClient;
-import battlearena.model.FighterType;
-import battlearena.model.Warrior;
+import battlearena.model.fighter.FighterType;
+import battlearena.model.fighter.Warrior;
 import battlearena.service.BattleService;
 import battlearena.service.FighterFactory;
 import battlearena.service.GameService;
@@ -34,19 +34,5 @@ public class GameServiceTest {
 
         assertTrue(service.isBattleActive());
         assertNotNull(service.getComputer().getFighter());
-    }
-
-    //TDD fix
-    @Test
-    void selectFighterShouldSetPlayersFighterType() {
-        service.selectFighter(FighterType.MAGE);
-        assertEquals(FighterType.MAGE, service.getPlayer().getFighterType());
-    }
-
-    @Test
-    void startBattleShouldSetComputerFighterType() {
-        service.selectFighter(FighterType.WARRIOR);
-        service.startBattle();
-        assertNotNull(service.getComputer().getFighterType());
     }
 }

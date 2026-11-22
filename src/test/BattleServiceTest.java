@@ -1,6 +1,8 @@
 package test;
 
 import battlearena.model.*;
+import battlearena.model.fighter.Fighter;
+import battlearena.model.fighter.FighterType;
 import battlearena.service.BattleService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,15 +14,26 @@ public class BattleServiceTest {
 
     private static class TestFighter extends Fighter {
         private final SpecialAction specialAction;
+        private final FighterType fighterType;
 
         TestFighter(SpecialAction specialAction) {
+            this(specialAction, FighterType.MAGE);
+        }
+
+        TestFighter(SpecialAction specialAction, FighterType fighterType) {
             super(100, 5, 10);
             this.specialAction = specialAction;
+            this.fighterType = fighterType;
         }
 
         @Override
         public SpecialAction getSpecialAction() {
             return specialAction;
+        }
+
+        @Override
+        public FighterType getType() {
+            return fighterType;
         }
     }
 
