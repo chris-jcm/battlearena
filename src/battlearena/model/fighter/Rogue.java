@@ -3,7 +3,6 @@ package battlearena.model.fighter;
 import battlearena.model.SpecialAction;
 
 public class Rogue extends Fighter {
-
     private static final int MIN_ATTACK = 30;
     private static final int MAX_ATTACK = 37;
     private static final int BASE_HEALTH = 100;
@@ -14,6 +13,11 @@ public class Rogue extends Fighter {
 
     @Override
     public SpecialAction getSpecialAction() {
-        return SpecialAction.DEFEND;
+        return SpecialAction.LIFE_STEAL;
+    }
+
+    @Override
+    public FighterType getType() {
+        return FighterType.ROGUE;
     }
 }

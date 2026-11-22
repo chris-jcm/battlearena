@@ -2,7 +2,7 @@ package battlearena.model.fighter;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-public abstract class Fighter implements Combatant {
+public abstract class Fighter implements Combatant, FighterInfo {
     private int healthPoints;
     private final int maxHealthPoints;
     private final int minAttackDamage;
