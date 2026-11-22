@@ -1,10 +1,12 @@
 package battlearena.model;
 
+import battlearena.model.fighter.Fighter;
+import battlearena.model.fighter.FighterType;
+
 public class Player {
     private String name;
     private final Boolean isComputer;
     private Fighter fighter;
-    private FighterType fighterType;
 
     public Player(String name, Boolean isComputer) {
         this.name = name;
@@ -29,13 +31,5 @@ public class Player {
 
     public void setFighter(Fighter fighter) {
         this.fighter = fighter;
-    }
-
-    public FighterType getFighterType() {
-        return fighterType;
-    }
-
-    public void setFighterType(FighterType fighterType) {
-        this.fighterType = fighterType;
     }
 }

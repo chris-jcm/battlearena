@@ -1,5 +1,7 @@
 package battlearena.model;
 
+import battlearena.model.fighter.FighterType;
+
 public record BattleResult(
         String playerName,
         FighterType playerFighter,

@@ -2,6 +2,9 @@ package battlearena.service;
 
 import battlearena.client.ArenaClient;
 import battlearena.model.*;
+import battlearena.model.fighter.Fighter;
+import battlearena.model.fighter.FighterInfo;
+import battlearena.model.fighter.FighterType;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,6 +21,7 @@ public class GameService {
     private final ArenaClient arenaClient;
     private final Player player;
     private final Player computer;
+    private final List<FighterInfo> availableFighters;
     private boolean isBattleActive;
     private boolean isPlayerTurn;
 
@@ -29,6 +33,7 @@ public class GameService {
         computer = new Player("Computer", true);
         isBattleActive = false;
         isPlayerTurn = false;
+        availableFighters = createAvailableFighters();
     }
 
     public Player getPlayer() {
@@ -54,7 +59,6 @@ public class GameService {
     public void selectFighter(FighterType fighterType) {
         Fighter fighter = fighterFactory.createFighter(fighterType);
         player.setFighter(fighter);
-        player.setFighterType(fighterType);
     }
 
     public void startBattle() {
@@ -67,7 +71,6 @@ public class GameService {
 
         FighterType computerType = fighterFactory.createRandomFighterType();
         computer.setFighter(fighterFactory.createFighter(computerType));
-        computer.setFighterType(computerType);
 
         // Decide who starts
         isPlayerTurn = Math.random() < 0.5;
@@ -171,8 +174,8 @@ public class GameService {
     public void saveMatchHistory() throws IOException {
         BattleResult result = new BattleResult(
                 player.getName(),
-                player.getFighterType(),
-                computer.getFighterType(),
+                player.getFighter().getType(),
+                computer.getFighter().getType(),
                 getMatchResult());
 
         arenaClient.sendBattleResult(result);
@@ -182,7 +185,17 @@ public class GameService {
         return arenaClient.getBattleHistory();
     }
 
-    public Fighter previewFighter(FighterType type) {
-        return fighterFactory.createFighter(type);
+    private List<FighterInfo> createAvailableFighters() {
+        List<FighterInfo> fighters = new ArrayList<>();
+
+        for (FighterType type : FighterType.values()) {
+            fighters.add(fighterFactory.createFighter(type));
+        }
+
+        return List.copyOf(fighters);
+    }
+
+    public List<FighterInfo> getAvailableFighters() {
+        return availableFighters;
     }
 }

@@ -1,6 +1,8 @@
 package battlearena.ui;
 
 import battlearena.model.*;
+import battlearena.model.fighter.Fighter;
+import battlearena.model.fighter.FighterType;
 import battlearena.service.GameService;
 
 import java.io.IOException;
@@ -106,17 +108,20 @@ public class GameUI {
 
         while (game.isBattleActive()) {
 
-            System.out.println("=======Your Turn======");
+            if (game.isPlayerTurn()) {
+                System.out.println("=======Your Turn======");
 
-            System.out.println("Currently");
-            System.out.println("Health " + playersFighter.getHealthPoints()
-                    + " / " + playersFighter.getMaxHealthPoints());
+                System.out.println("Currently");
+                System.out.println("Health " + playersFighter.getHealthPoints()
+                        + " / " + playersFighter.getMaxHealthPoints());
 
-            System.out.println("\nChoose your action:\n");
-            System.out.println(" [1] - ATTACK");
-            System.out.println(" [2] - SPECIAL - " + playersFighter.getSpecialAction().getDisplayName());
-            System.out.println("\n-------------------");
-            System.out.println("Enter your choice:");
+                System.out.println("\nChoose your action:\n");
+                System.out.println(" [1] - ATTACK");
+                System.out.println(" [2] - SPECIAL - " + playersFighter.getSpecialAction().getDisplayName());
+                System.out.println("\n-------------------");
+                System.out.println("Enter your choice:");
+
+            }
 
             playTurn();
         }
@@ -132,9 +137,18 @@ public class GameUI {
         }
     }
 
+    private void pauseBetweenTurns() {
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
     private void playTurn() {
 
         try {
+            boolean playerTurn = game.isPlayerTurn();
             TurnResult result;
 
             if (game.isPlayerTurn()) {
@@ -155,6 +169,10 @@ public class GameUI {
             System.out.println("Attacker HP: " + log.attackerHP());
             System.out.println("Defender HP: " + log.defenderHP());
             System.out.println("==============");
+
+            if (playerTurn && game.isBattleActive()) {
+                pauseBetweenTurns();
+            }
 
         } catch (IllegalStateException e) {
             System.out.println(e.getMessage());
@@ -209,13 +227,13 @@ public class GameUI {
     }
 
     private void listFighters() {
-        for (FighterType fighter : FighterType.values()) {
-            Fighter temp = game.previewFighter(fighter);
-            System.out.print(fighter.getCode() + " - " + fighter.getDisplayName());
-            System.out.print("  === Special: " + temp.getSpecialAction().getDisplayName());
-            System.out.println("  === Health: " + temp.getMaxHealthPoints());
-
+        for (var fighter : game.getAvailableFighters()) {
+            var type = fighter.getType();
+            System.out.print(type.getCode() + " - " + type.getDisplayName());
+            System.out.print("  === Special: " + fighter.getSpecialAction().getDisplayName());
+            System.out.println("  === Health: " + fighter.getMaxHealthPoints());
         }
+
         System.out.println(ACTION_REQUEST);
     }
 

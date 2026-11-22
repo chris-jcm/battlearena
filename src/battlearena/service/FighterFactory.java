@@ -1,6 +1,6 @@
 package battlearena.service;
 
-import battlearena.model.*;
+import battlearena.model.fighter.*;
 
 import java.util.concurrent.ThreadLocalRandom;
 
