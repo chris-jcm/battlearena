@@ -10,8 +10,6 @@ import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class ArenaClient {
     public static final String GET_HISTORY = "GET_HISTORY";
@@ -20,7 +18,6 @@ public class ArenaClient {
     private static final int TIMEOUT_MS = 5000;
     public static final String REQUEST_FAILED = "Request failed ";
     public static final String REQUEST_TIMED_OUT = "Request timed out ";
-    private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     public void sendBattleResult(BattleResult result) throws IOException {
         try (Socket socket = new Socket(LOCALHOST, PORT)) {
@@ -31,16 +28,6 @@ public class ArenaClient {
         } catch (IOException e) {
             throw new IOException(REQUEST_FAILED + e.getMessage());
         }
-    }
-
-    public void sendBattleResultAsync(BattleResult result) {
-        executor.submit(() -> {
-            try {
-                sendBattleResult(result);
-            } catch (IOException e) {
-                System.err.println(REQUEST_FAILED + e.getMessage());
-            }
-        });
     }
 
     public List<BattleResult> getBattleHistory() throws IOException {
