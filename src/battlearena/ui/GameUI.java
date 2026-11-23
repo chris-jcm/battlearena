@@ -138,11 +138,8 @@ public class GameUI {
     }
 
     private void pauseBetweenTurns() {
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+        System.out.println("Press enter to continue...");
+        scanner.nextLine();
     }
 
     private void playTurn() {
