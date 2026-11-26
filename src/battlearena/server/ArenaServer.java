@@ -1,5 +1,4 @@
 package battlearena.server;
-import battlearena.client.ArenaClient;
 
 import java.io.*;
 import java.net.*;
@@ -7,7 +6,7 @@ import java.nio.file.Path;
 import java.util.List;
 
 public class ArenaServer {
-
+    private static final String GET_HISTORY = "GET_HISTORY";
     private static final int PORT = 5001;
 
     public static void main(String[] args) throws IOException {
@@ -39,7 +38,7 @@ public class ArenaServer {
             return;
         }
 
-        if (ArenaClient.GET_HISTORY.equals(request)) {
+        if (GET_HISTORY.equals(request)) {
             System.out.println("Client wants to get history");
             List<String> history = fileService.readAll();
             var response = new PrintWriter(client.getOutputStream(), true);

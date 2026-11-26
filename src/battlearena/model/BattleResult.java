@@ -18,7 +18,11 @@ public record BattleResult(
     }
 
     public static BattleResult deserialize(String data) {
-        String[] fields = data.split("\\|");
+        String[] fields = data.split("\\|", -1);
+
+        if (fields.length != 4) {
+            throw new IllegalArgumentException();
+        }
 
         return new BattleResult(
                 fields[0],
